@@ -1,6 +1,6 @@
 const http = require("http");
 const {SERVER} = require('./utils/constants.util');
-const {findAllUsers, addUser,getUserById} = require("./controllers/index");
+const {findAllUsers, addUser, getUserById} = require("./controllers/index");
 
 
 const requestListener = async (req, res) => {
@@ -26,15 +26,14 @@ const requestListener = async (req, res) => {
         res.writeHead(200);
         res.write(JSON.stringify({users: users}, null, 4));
         res.end();
-    }else if(req.url.split('/')[2].length > 0 && SERVER.METHODS.GET && req.url === '/users'){
+    } else if (req.url.split('/')[2].length > 0 && SERVER.METHODS.GET && req.url.split('/')[1] === 'users') {
         const id = req.url.split('/')[2];
         const users = await getUserById(id);
         res.setHeader("Content-Type", "application/json");
         res.writeHead(200);
         res.write(JSON.stringify({users: users}, null, 4));
         res.end();
-    }
-     else {
+    } else {
         res.setHeader("Content-Type", "application/json");
         res.writeHead(404);
         res.write(JSON.stringify({message: "Endpoint not found"}, null, 4));
