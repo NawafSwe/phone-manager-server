@@ -1,27 +1,33 @@
 const http = require("http");
-const HOST = "localhost";
-const PORT = 8000;
-const {findAllUsers} = require("./controllers/findAllUsers");
+const {SERVER} = require('./utils/constants.util');
+const {findAllUsers, addUser} = require("./controllers/index");
+
+
 const requestListener = async (req, res) => {
-    console.log(req.url);
-    if (req.url === '/users') {
-        res.setHeader("Content-Type", "application/json");
+    switch (req) {
+        case (req.url.slice(1) === 'users' && req.method === SERVER.METHODS.POST):
+            const createUserResponse = await addUser(req.body);
+            res.setHeader("Content-Type", "application/json");
+            res.writeHead(201);
+            res.write(JSON.stringify({createdUser: createUserResponse}, null, 4));
+            return res.end();
 
-        const users = await findAllUsers();
-        if (users?.length >= 0) {
-            res.writeHead(200);
+        case (req.url.slice(1) === 'users' && req.method === SERVER.METHODS.GET):
+            const users = await findAllUsers();
+            res.setHeader("Content-Type", "application/json");
+            res.writeHead(201);
             res.write(JSON.stringify({users: users}, null, 4));
-            res.end();
-        } else {
-            res.writeHead(400);
-            res.write(JSON.stringify({message: 'Server could not handle your request'}, null, 4));
-            res.end();
-        }
+            return res.end();
 
+        default:
+            res.setHeader("Content-Type", "application/json");
+            res.writeHead(404);
+            res.write(JSON.stringify({message: "Endpoint not found"}, null, 4));
+            return res.end();
     }
 };
 
 const server = http.createServer(requestListener);
-server.listen(PORT, HOST, () => {
-    console.log(`Server is running on ${HOST}:${PORT} 🚀`);
+server.listen(SERVER.PORT, SERVER.HOST, () => {
+    console.log(`Server is running on ${SERVER.HOST}:${SERVER.PORT} 🚀`);
 });
