@@ -1,13 +1,16 @@
+/**
+ * @description modules construct constants to avoid strings typing in the project
+ */
 module.exports = {
     DB: {
         USER_COLLECTION: "usersModel",
         DB_NAME: "PhoneManager",
-        DB_HOST: 'localhost',// in case you are using docker replace it with the container name
+        DB_HOST: 'mongo',// in case you are using docker replace it with the container name
         DB_PORT: 27017,
     },
     SERVER: {
         PORT: 6060,
-        HOST: 'localhost',
+        HOST: '127.0.0.1',
         METHODS: {
             GET: 'GET',
             POST: 'POST',

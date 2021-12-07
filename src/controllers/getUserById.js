@@ -1,6 +1,15 @@
 const {connect} = require("../config/db.config");
 const {DB} = require("../utils/constants.util");
 const mongo = require("mongodb");
+
+/**
+ * @async
+ * @function
+ * @namespace getUserById
+ * @param id
+ * @return {Promise<WithId<Document> | null>}
+ * @description getting user by his id
+ */
 const getUserById = async (id) => {
     try {
         const db = await connect();

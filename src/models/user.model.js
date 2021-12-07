@@ -1,3 +1,8 @@
+/**
+ *
+ * @namespace userModel
+ * @description user collection defined in the db
+ */
 const userModel = {
   validator: {
     $jsonSchema: {
