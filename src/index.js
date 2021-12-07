@@ -9,17 +9,15 @@ const requestListener = async (req, res) => {
         req.on('data', chunk => {
             data += chunk;
         });
-        req.on('end', () => {
-            data = JSON.parse(data);
-            console.log(data);
+        req.on('end', async () => {
+            const createUserResponse = await addUser(JSON.parse(data));
+            const isCreated = createUserResponse?.acknowledged;
+            res.setHeader("Content-Type", "application/json");
+            res.writeHead(isCreated ? HTTP_STATUS.CREATED.code : HTTP_STATUS.BAD_REQUEST.code);
+            const body = isCreated ? {createdUser: createUserResponse} : {message: createUserResponse};
+            res.write(JSON.stringify(body, null, 4));
+            res.end();
         });
-        const createUserResponse = await addUser(data);
-        const isCreated = createUserResponse?.acknowledged;
-        res.setHeader("Content-Type", "application/json");
-        res.writeHead(isCreated ? HTTP_STATUS.CREATED.code : HTTP_STATUS.BAD_REQUEST.code);
-        const body = isCreated ? {createdUser: createUserResponse} : {message: createUserResponse};
-        res.write(JSON.stringify(body, null, 4));
-        res.end();
 
     } else if (req.url === ROUTES.USERS && req.method.toUpperCase() === SERVER.METHODS.GET) {
         const users = await findAllUsers();

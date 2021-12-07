@@ -11,6 +11,7 @@ const {DB} = require("../utils/constants.util");
  */
 const addUser = async (body) => {
     try {
+        console.log(typeof body.name);
         if (!body?.name) {
             return "Name Should be exist on the body";
         }
