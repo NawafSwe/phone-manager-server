@@ -1,7 +1,8 @@
 {
-  "name": "package.json",
+  "name": "phonemanager",
   "version": "1.0.0",
   "description": "This is a package.json holds app dependencies",
+  "git": "https://github.com/NawafSwe/phone-manager-server.git",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
