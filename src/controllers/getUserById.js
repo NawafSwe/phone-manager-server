@@ -8,9 +8,10 @@ const getUserById = async () => {
       _id: new mongo.ObjectId("61afb20ac8c6e867a0c7fd9b"),
     });
     console.log(foundUser);
+    return foundUser;
   } catch (error) {
     console.error(`error occurred at getUserById function, error: ${error}`);
   }
 };
 
-getUserById();
+module.exports = { getUserById };

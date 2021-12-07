@@ -15,5 +15,4 @@ const findAllUsers = async () => {
   }
 };
 
-
-findAllUsers();
+module.exports = { findAllUsers };

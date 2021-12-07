@@ -6,12 +6,13 @@ const addUser = async () => {
     const createdUser = await db
       .collection(CONSTANTS.USER_COLLECTION)
       .insertOne({ name: "Nawaf", numbers: ["546677100"] });
-    
+    if (!createdUser.acknowledged) {
+      console.error("could not create user");
+    }
     return createdUser;
   } catch (error) {
     console.error(`error occurred at addUser function, error: ${error}`);
   }
 };
 
-
-addUser();
+module.exports = { addUser };
