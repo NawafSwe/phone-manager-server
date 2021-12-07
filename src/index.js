@@ -1,11 +1,11 @@
 const http = require("http");
-const {SERVER} = require('./utils/constants.util');
+const {SERVER, ROUTES} = require('./utils/constants.util');
 const {findAllUsers, addUser, getUserById} = require("./controllers/index");
 
 
 const requestListener = async (req, res) => {
 
-    if (req.url === '/users' && req.method.toUpperCase() === SERVER.METHODS.POST) {
+    if (req.url === ROUTES.USERS && req.method.toUpperCase() === SERVER.METHODS.POST) {
         let data = '';
         req.on('data', chunk => {
             data += chunk;
@@ -15,23 +15,30 @@ const requestListener = async (req, res) => {
             console.log(data);
         });
         const createUserResponse = await addUser(data);
+        const isCreated = createUserResponse.acknowledged;
         res.setHeader("Content-Type", "application/json");
-        res.writeHead(201);
-        res.write(JSON.stringify({createdUser: createUserResponse}, null, 4));
+        res.writeHead(isCreated ? 201 : 400);
+        const body = isCreated ? {createdUser: createUserResponse} : {message: 'User Could not be created'};
+        res.write(JSON.stringify(body, null, 4));
         res.end();
 
-    } else if (req.url === '/users' && req.method.toUpperCase() === SERVER.METHODS.GET) {
+    } else if (req.url === ROUTES.USERS && req.method.toUpperCase() === SERVER.METHODS.GET) {
         const users = await findAllUsers();
         res.setHeader("Content-Type", "application/json");
         res.writeHead(200);
         res.write(JSON.stringify({users: users}, null, 4));
         res.end();
-    } else if (req.url.split('/')[2].length > 0 && SERVER.METHODS.GET && req.url.split('/')[1] === 'users') {
+    } else if (
+        req.url.split('/')[2].length > 0 && SERVER.METHODS.GET && req.url.split('/')[1] === ROUTES.USERS.slice(1)
+        && req.method === SERVER.METHODS.GET
+    ) {
         const id = req.url.split('/')[2];
-        const users = await getUserById(id);
+        const user = await getUserById(id);
+        const isFound = user._id !== null;
         res.setHeader("Content-Type", "application/json");
-        res.writeHead(200);
-        res.write(JSON.stringify({users: users}, null, 4));
+        res.writeHead(isFound ? 200 : 404);
+        const body = isFound ? {user: user} : {message: 'User Not Found'};
+        res.write(JSON.stringify(body, null, 4));
         res.end();
     } else {
         res.setHeader("Content-Type", "application/json");

@@ -15,6 +15,7 @@ module.exports = {
             DELETE: 'DELETE',
         },
     },
-
-
+    ROUTES: {
+        USERS: '/users',
+    },
 };
