@@ -25,13 +25,10 @@ const requestListener = async (req, res) => {
         res.writeHead(HTTP_STATUS.OK.code);
         res.write(JSON.stringify({users: users}, null, 4));
         res.end();
-    } else if (
-        req.url.split('/')[2].length > 0 && req.url.split('/')[1] === ROUTES.USERS.slice(1)
-        && req.method === SERVER.METHODS.GET
-    ) {
+    } else if (req.method === SERVER.METHODS.GET && req.url.split('/')[1] === ROUTES.USERS.slice(1) && req.url.split('/')[2].length > 0) {
         const id = req.url.split('/')[2];
         const user = await getUserById(id);
-        const isFound = user._id !== null;
+        const isFound = user?._id;
         res.setHeader("Content-Type", "application/json");
         res.writeHead(isFound ? HTTP_STATUS.OK.code : HTTP_STATUS.NOT_FOUND.code);
         const body = isFound ? {user: user} : {message: 'User Not Found'};
