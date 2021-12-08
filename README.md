@@ -31,6 +31,7 @@ To be abel to test the project I have created three endpoints that handles the f
     Where Name is mandatory field
 * Show a list of names, constructed on ```http://{{HOST}}:{{PORT}}/users``` with GET http request, it will return saved users with their numbers and names.
 * Show a name with numbers associated with it constructed on ```http://{{HOST}}:{{PORT}}/users/${userId}``` with GET http request, it will return user information (name,numbers)
+* Delete User by his id on ```http://{{HOST}}:{{PORT}}/users/${userId}``` with DELETE http request
 * If unknown endpoint hit you will receive 404 Not found error.
 
 # Testing with POSTMAN:

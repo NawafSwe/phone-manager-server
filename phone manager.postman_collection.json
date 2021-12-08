@@ -230,6 +230,73 @@
 					"body": "{\n    \"user\": {\n        \"_id\": \"61afedd98ecf5c2e63992cad\",\n        \"name\": \"Nawaf\",\n        \"numbers\": [\n            \"0546677100\",\n            \"0546677100\"\n        ]\n    }\n}"
 				}
 			]
+		},
+		{
+			"name": "delete user by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/users/61b06e8e26addce3b6b374be",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"users",
+						"61b06e8e26addce3b6b374be"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "delete user by id",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://{{HOST}}:{{PORT}}/users/61b06e8e26addce3b6b374be",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"users",
+								"61b06e8e26addce3b6b374be"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Dec 2021 08:36:41 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"deleteResult\": {\n        \"acknowledged\": true,\n        \"deletedCount\": 1\n    }\n}"
+				}
+			]
 		}
 	]
 }

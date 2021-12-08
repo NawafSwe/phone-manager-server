@@ -1,6 +1,6 @@
 const http = require("http");
 const {SERVER, ROUTES, HTTP_STATUS} = require('./utils/constants.util');
-const {findAllUsers, addUser, getUserById} = require("./controllers/index");
+const {findAllUsers, addUser, getUserById, deleteUserById} = require("./controllers/index");
 
 
 const requestListener = async (req, res) => {
@@ -34,6 +34,16 @@ const requestListener = async (req, res) => {
         const body = isFound ? {user: user} : {message: 'User Not Found'};
         res.write(JSON.stringify(body, null, 4));
         res.end();
+    } else if (req.method === SERVER.METHODS.DELETE && req.url.split('/')[1] === ROUTES.USERS.slice(1) && req.url.split('/')[2].length > 0) {
+        const id = req.url.split('/')[2];
+        const deleteUserResponse = await deleteUserById(id);
+        const isDeleted = deleteUserResponse?.acknowledged;
+        res.setHeader("Content-Type", "application/json");
+        res.writeHead(isDeleted ? HTTP_STATUS.OK.code : HTTP_STATUS.NOT_FOUND.code);
+        const body = isDeleted ? {deleteResult: deleteUserResponse} : {message: deleteUserResponse};
+        res.write(JSON.stringify(body, null, 4));
+        res.end();
+
     } else {
         res.setHeader("Content-Type", "application/json");
         res.writeHead(HTTP_STATUS.NOT_FOUND.code);
