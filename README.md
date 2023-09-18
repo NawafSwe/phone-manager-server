@@ -25,7 +25,7 @@ To be abel to test the project I have created three endpoints that handles the f
   ```json
        {
       "name":"Nawaf",
-      "numbers": ["0546677100","0546677100"]
+      "numbers": ["0546137120","0546137120"]
         }
      ```
     Where Name is mandatory field
